@@ -363,6 +363,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return "academic";
   }
 
+  // Helper function to escape HTML attributes
+  function escapeHtml(text) {
+    return text.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   // Function to fetch activities from API with optional day and time filters
   async function fetchActivities() {
     // Show loading skeletons first
@@ -554,19 +559,19 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="share-buttons">
         <span class="share-label">Share:</span>
-        <button class="share-btn share-facebook tooltip" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share on Facebook">
+        <button class="share-btn share-facebook tooltip" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Facebook">
           <span class="share-icon">📘</span>
           <span class="tooltip-text">Share on Facebook</span>
         </button>
-        <button class="share-btn share-twitter tooltip" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share on Twitter">
+        <button class="share-btn share-twitter tooltip" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Twitter">
           <span class="share-icon">🐦</span>
           <span class="tooltip-text">Share on Twitter</span>
         </button>
-        <button class="share-btn share-email tooltip" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share via Email">
+        <button class="share-btn share-email tooltip" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share via Email">
           <span class="share-icon">✉️</span>
           <span class="tooltip-text">Share via Email</span>
         </button>
-        <button class="share-btn share-copy tooltip" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Copy Link">
+        <button class="share-btn share-copy tooltip" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Copy Link">
           <span class="share-icon">🔗</span>
           <span class="tooltip-text">Copy link</span>
         </button>
@@ -844,7 +849,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
       window.open(facebookUrl, '_blank', 'width=600,height=400');
     } else if (button.classList.contains('share-twitter')) {
-      // Twitter share
+      // Twitter/X share - using Twitter URL as it redirects to X automatically
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
       window.open(twitterUrl, '_blank', 'width=600,height=400');
     } else if (button.classList.contains('share-email')) {
